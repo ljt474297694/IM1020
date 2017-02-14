@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     private String pwd;
     private String username;
 
+    private Modle modle = Modle.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.login_btn_register:
                 if (verify()) {
-                    Modle.getInstance().getGlobalThread().execute(new Runnable() {
+                    modle.getGlobalThread().execute(new Runnable() {
                         @Override
                         public void run() {
 
@@ -69,28 +71,27 @@ public class LoginActivity extends AppCompatActivity {
 
             case R.id.login_btn_login:
                 if (verify()) {
-                    Modle.getInstance().getGlobalThread().execute(new Runnable() {
+                    modle.getGlobalThread().execute(new Runnable() {
                         @Override
                         public void run() {
-                           EMClient.getInstance().login(username, pwd, new EMCallBack() {
+                            EMClient.getInstance().login(username, pwd, new EMCallBack() {
                                 @Override
                                 public void onSuccess() {
                                     //登录成功后需要的处理
-                                    Modle.getInstance().loginSuccess(EMClient.getInstance().getCurrentUser());
+                                    modle.loginSuccess(EMClient.getInstance().getCurrentUser());
 
                                     //将用户保存到数据库
-                                    Modle.getInstance().getAccountDao()
+                                    modle.getAccountDao()
                                             .addAccount(new UserInfo(EMClient.getInstance().getCurrentUser()));
                                     Log.e("TAG", "LoginActivity onSuccess()+数据库保存成功");
                                     //登录成功切换主页面 结束当前页面
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
-                               finish();
-                           }
-
+                                    finish();
+                                }
                                 @Override
                                 public void onError(int i, String s) {
-                                    Log.e("TAG", "LoginActivity onError()"+s);
+                                    Log.e("TAG", "LoginActivity onError()" + s);
                                 }
 
                                 @Override
