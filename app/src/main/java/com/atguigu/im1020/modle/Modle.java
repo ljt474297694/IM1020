@@ -20,11 +20,13 @@ public class Modle {
     private Context mContext;
     private AccountDAO accountDao;
 
-    public ExecutorService getGlobalThread(){
-        return service;
+    /**
+     *
+     * @param run 使用线程池开启线程
+     */
+    public void startThread(Runnable run){
+        service.execute(run);
     }
-
-
     public void init(Context context) {
         this.mContext = context;
         this.accountDao = new AccountDAO(context);

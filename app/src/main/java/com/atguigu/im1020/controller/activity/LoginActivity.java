@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private String pwd;
     private String username;
-
+    //得到Modle实例 用于开启线程
     private Modle modle = Modle.getInstance();
 
     @Override
@@ -50,10 +50,9 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.login_btn_register:
                 if (verify()) {
-                    modle.getGlobalThread().execute(new Runnable() {
+                    modle.startThread(new Runnable() {
                         @Override
                         public void run() {
-
                             try {
                                 EMClient.getInstance().createAccount(username, pwd);
                                 ShowToast.showUIThread(LoginActivity.this, "注册成功");
@@ -61,7 +60,8 @@ public class LoginActivity extends AppCompatActivity {
                             } catch (HyphenateException e) {
                                 e.printStackTrace();
 
-                                ShowToast.showUIThread(LoginActivity.this, "注册失败" + e.getMessage());
+                                ShowToast.showUIThread(LoginActivity.this, "注册失败");
+                                Log.e("TAG", "注册失败 ====" + e.getMessage());
                             }
                         }
 
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
             case R.id.login_btn_login:
                 if (verify()) {
-                    modle.getGlobalThread().execute(new Runnable() {
+                    modle.startThread(new Runnable() {
                         @Override
                         public void run() {
                             EMClient.getInstance().login(username, pwd, new EMCallBack() {
@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     finish();
                                 }
+
                                 @Override
                                 public void onError(int i, String s) {
                                     Log.e("TAG", "LoginActivity onError()" + s);
@@ -107,6 +108,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 简单的检验 输入框中的文本数据是否符合规定
+     * @return
+     */
     private boolean verify() {
         pwd = loginEtPassword.getText().toString().trim();
         username = loginEtUsername.getText().toString().trim();
