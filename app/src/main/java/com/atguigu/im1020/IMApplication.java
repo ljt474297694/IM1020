@@ -13,6 +13,7 @@ import com.hyphenate.easeui.controller.EaseUI;
  */
 
 public class IMApplication extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,11 +27,19 @@ public class IMApplication extends Application {
     }
 
     private void initHXSdk() {
-        EMOptions options =  new EMOptions();
+        EMOptions options = new EMOptions();
         //是否总是接受邀请
         options.setAcceptInvitationAlways(false);
         //是否总是接受群邀请
         options.setAutoAcceptGroupInvitation(false);
 
-        EaseUI.getInstance().init(this,options);}
+        EaseUI.getInstance().init(this, options);
+    }
+    private static IMApplication mIMApplication;
+    public static IMApplication getInstance(){
+        if(mIMApplication==null) {
+            mIMApplication = new IMApplication();
+        }
+        return mIMApplication;
+    }
 }

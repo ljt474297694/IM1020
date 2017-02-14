@@ -15,16 +15,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SplashActivity extends AppCompatActivity {
-    private int time = 6000;
+    private int time = 3000;
     @Bind(R.id.splash_tv_timer)
     TextView splashTvTimer;
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    if (time > 0) {
-                        time -= 1000;
+                    if (time >= 0) {
                         splashTvTimer.setText(time / 1000 + "S");
+                        time -= 1000;
                         sendEmptyMessageDelayed(0, 1000);
                     } else {
                         enterMainOrLogin();
