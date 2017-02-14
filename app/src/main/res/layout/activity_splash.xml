@@ -24,4 +24,15 @@
         android:text="欢迎来到尚硅谷"
         android:textSize="26sp"
         android:gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5s"
+        android:id="@+id/splash_tv_timer"
+        android:textSize="20sp"
+        android:layout_margin="8dp"
+        android:background="#33000000"
+        android:padding="4dp"
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

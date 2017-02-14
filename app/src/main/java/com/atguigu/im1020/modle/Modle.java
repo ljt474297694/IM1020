@@ -2,6 +2,8 @@ package com.atguigu.im1020.modle;
 
 import android.content.Context;
 
+import com.atguigu.im1020.modle.dao.AccountDAO;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -16,6 +18,7 @@ public class Modle {
     private ExecutorService service = Executors.newCachedThreadPool();
 
     private Context mContext;
+    private AccountDAO accountDao;
 
     public ExecutorService getGlobalThread(){
         return service;
@@ -24,6 +27,7 @@ public class Modle {
 
     public void init(Context context) {
         this.mContext = context;
+        this.accountDao = new AccountDAO(context);
     }
 
     private Modle() {
@@ -33,4 +37,11 @@ public class Modle {
         return model;
     }
 
+    public void loginSuccess(String currentUser) {
+        
+    }
+
+    public AccountDAO getAccountDao() {
+        return accountDao;
+    }
 }

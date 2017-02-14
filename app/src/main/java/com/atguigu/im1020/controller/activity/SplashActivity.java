@@ -5,17 +5,30 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.atguigu.im1020.R;
 import com.hyphenate.chat.EMClient;
 
-public class SplashActivity extends AppCompatActivity {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+public class SplashActivity extends AppCompatActivity {
+    private int time = 6000;
+    @Bind(R.id.splash_tv_timer)
+    TextView splashTvTimer;
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    enterMainOrLogin();
+                    if (time > 0) {
+                        time -= 1000;
+                        splashTvTimer.setText(time / 1000 + "S");
+                        sendEmptyMessageDelayed(0, 1000);
+                    } else {
+                        enterMainOrLogin();
+                    }
                     break;
             }
         }
@@ -50,8 +63,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        //发送延迟
-        handler.sendEmptyMessageDelayed(0, 2000);
+        ButterKnife.bind(this);
+        //发送消息
+        handler.sendEmptyMessage(0);
     }
 
     @Override
@@ -59,5 +73,11 @@ public class SplashActivity extends AppCompatActivity {
         //移除所有未处理的消息
         handler.removeCallbacksAndMessages(null);
         super.onDestroy();
+    }
+
+    @OnClick(R.id.splash_tv_timer)
+    public void onClick() {
+        handler.removeCallbacksAndMessages(null);
+        enterMainOrLogin();
     }
 }
