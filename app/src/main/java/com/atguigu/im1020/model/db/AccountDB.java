@@ -1,10 +1,10 @@
-package com.atguigu.im1020.modle.db;
+package com.atguigu.im1020.model.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.atguigu.im1020.modle.table.AccountTable;
+import com.atguigu.im1020.model.table.AccountTable;
 
 /**
  * Created by 李金桐 on 2017/2/14.

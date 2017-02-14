@@ -2,7 +2,7 @@ package com.atguigu.im1020;
 
 import android.app.Application;
 
-import com.atguigu.im1020.modle.Modle;
+import com.atguigu.im1020.model.Model;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
 
@@ -22,7 +22,7 @@ public class IMApplication extends Application {
     }
 
     private void initModle() {
-        Modle.getInstance().init(this);
+        Model.getInstance().init(this);
 
     }
 

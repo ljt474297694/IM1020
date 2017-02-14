@@ -1,4 +1,4 @@
-package com.atguigu.im1020.modle.table;
+package com.atguigu.im1020.model.table;
 
 /**
  * Created by 李金桐 on 2017/2/14.

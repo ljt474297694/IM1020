@@ -10,8 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.atguigu.im1020.R;
-import com.atguigu.im1020.modle.Modle;
-import com.atguigu.im1020.modle.bean.UserInfo;
+import com.atguigu.im1020.model.Model;
+import com.atguigu.im1020.model.bean.UserInfo;
 import com.atguigu.im1020.utils.ShowToast;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private String pwd;
     private String username;
     //得到Modle实例 用于开启线程
-    private Modle modle = Modle.getInstance();
+    private Model modle = Model.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.login_btn_register:
                 if (verify()) {
-                    modle.startThread(new Runnable() {
+                    Model.startThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
 
             case R.id.login_btn_login:
                 if (verify()) {
-                    modle.startThread(new Runnable() {
+                    Model.startThread(new Runnable() {
                         @Override
                         public void run() {
                             EMClient.getInstance().login(username, pwd, new EMCallBack() {

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.atguigu.im1020.R;
+import com.atguigu.im1020.model.Model;
 import com.hyphenate.chat.EMClient;
 
 import butterknife.Bind;
@@ -36,7 +37,8 @@ public class SplashActivity extends AppCompatActivity {
 
     //进入主界面或者登录界面
     private void enterMainOrLogin() {
-        new Thread() {
+        Model.startThread(new Runnable() {
+            @Override
             public void run() {
                 //去环信服务器 获取是否登录过
                 boolean loggedInBefore = EMClient.getInstance().isLoggedInBefore();
@@ -56,7 +58,7 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        }.start();
+        });
     }
 
     @Override

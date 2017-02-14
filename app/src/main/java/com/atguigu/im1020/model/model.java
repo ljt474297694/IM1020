@@ -1,8 +1,8 @@
-package com.atguigu.im1020.modle;
+package com.atguigu.im1020.model;
 
 import android.content.Context;
 
-import com.atguigu.im1020.modle.dao.AccountDAO;
+import com.atguigu.im1020.model.dao.AccountDAO;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,12 +10,13 @@ import java.util.concurrent.Executors;
 /**
  * Created by 李金桐 on 2017/2/14.
  * QQ: 474297694
- * 功能: xxxx
+ * 功能: Modle管理类
  */
 
-public class Modle {
-    private static Modle model = new Modle();
-    private ExecutorService service = Executors.newCachedThreadPool();
+public class Model {
+    //恶汉式单例
+    private static Model model = new Model();
+    private static ExecutorService service = Executors.newCachedThreadPool();
 
     private Context mContext;
     private AccountDAO accountDao;
@@ -24,18 +25,19 @@ public class Modle {
      *
      * @param run 使用线程池开启线程
      */
-    public void startThread(Runnable run){
+    public static void startThread(Runnable run){
         service.execute(run);
     }
+
     public void init(Context context) {
         this.mContext = context;
         this.accountDao = new AccountDAO(context);
     }
 
-    private Modle() {
+    private Model() {
     }
 
-    public static Modle getInstance() {
+    public static Model getInstance() {
         return model;
     }
 

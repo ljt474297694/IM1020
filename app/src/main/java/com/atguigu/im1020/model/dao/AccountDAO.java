@@ -1,4 +1,4 @@
-package com.atguigu.im1020.modle.dao;
+package com.atguigu.im1020.model.dao;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
-import com.atguigu.im1020.modle.bean.UserInfo;
-import com.atguigu.im1020.modle.db.AccountDB;
-import com.atguigu.im1020.modle.table.AccountTable;
+import com.atguigu.im1020.model.bean.UserInfo;
+import com.atguigu.im1020.model.db.AccountDB;
+import com.atguigu.im1020.model.table.AccountTable;
 
 /**
  * Created by 李金桐 on 2017/2/14.
