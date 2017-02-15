@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
  */
 
 public class Utils {
+
     private static ExecutorService service = Executors.newCachedThreadPool();
     /**
      *
@@ -18,4 +19,5 @@ public class Utils {
     public static void startThread(Runnable run){
         service.execute(run);
     }
+
 }
