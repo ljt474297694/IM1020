@@ -14,6 +14,7 @@ public class Model {
 
     private Context mContext;
     private AccountDAO accountDao;
+    private DBManager dbManager;
 
     /**
      * 静态内部类 单例模式
@@ -36,7 +37,10 @@ public class Model {
     }
 
     public void loginSuccess(String currentUser) {
-        
+        if(dbManager!=null) {
+            dbManager.close();
+        }
+        dbManager = new DBManager(mContext,currentUser+".db");
     }
 
     public AccountDAO getAccountDao() {

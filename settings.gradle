@@ -1,1 +1,1 @@
-include ':app', ':easeUI_CN'
+include ':app', ':easeUI_CN', ':MVPDemo'
