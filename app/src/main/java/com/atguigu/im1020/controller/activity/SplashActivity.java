@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.atguigu.im1020.R;
-import com.atguigu.im1020.model.Model;
+import com.atguigu.im1020.utils.Utils;
 import com.hyphenate.chat.EMClient;
 
 import butterknife.Bind;
@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
 
     //进入主界面或者登录界面
     private void enterMainOrLogin() {
-        Model.startThread(new Runnable() {
+        Utils.startThread(new Runnable() {
             @Override
             public void run() {
                 //去环信服务器 获取是否登录过

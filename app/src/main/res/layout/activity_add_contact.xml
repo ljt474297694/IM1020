@@ -24,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20sp"
-            android:text="保存"
-            android:id="@+id/invite_btn_save"
+            android:text="查找"
+            android:id="@+id/invite_btn_search"
             android:textColor="@color/btn_white_normal"
             android:layout_alignParentRight="true"
             android:background="@null"/>

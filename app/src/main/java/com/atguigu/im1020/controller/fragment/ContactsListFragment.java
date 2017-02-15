@@ -10,6 +10,11 @@ import com.atguigu.im1020.controller.activity.AddContactActivity;
 import com.atguigu.im1020.utils.ShowToast;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static com.atguigu.im1020.R.id.ll_groups;
+
 /**
  * Created by 李金桐 on 2017/2/14.
  * QQ: 474297694
@@ -19,17 +24,18 @@ import com.hyphenate.easeui.ui.EaseContactListFragment;
 public class ContactsListFragment extends EaseContactListFragment {
 
 
-    ImageView contanct_iv_invite;
-    LinearLayout ll_new_friends;
-    LinearLayout ll_groups;
+    @Bind(R.id.contanct_iv_invite)
+    ImageView contanctIvInvite;
+    @Bind(R.id.ll_new_friends)
+    LinearLayout llNewFriends;
+    @Bind(ll_groups)
+    LinearLayout llGroups;
 
     @Override
     protected void initView() {
         super.initView();
         View headerView = View.inflate(getActivity(), R.layout.fragment_contact_header, null);
-        ll_new_friends = (LinearLayout) headerView.findViewById(R.id.ll_new_friends);
-        ll_groups = (LinearLayout) headerView.findViewById(R.id.ll_groups);
-        contanct_iv_invite = (ImageView) headerView.findViewById(R.id.contanct_iv_invite);
+        ButterKnife.bind(this, headerView);
         listView.addHeaderView(headerView);
         // 头部图标设置
         titleBar.setRightImageResource(R.drawable.em_add);
@@ -49,17 +55,35 @@ public class ContactsListFragment extends EaseContactListFragment {
                 getActivity().startActivity(new Intent(getActivity(), AddContactActivity.class));
             }
         });
-        ll_new_friends.setOnClickListener(new View.OnClickListener() {
+        llNewFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowToast.show(getActivity(),"邀请好友");
+                ShowToast.show(getActivity(), "邀请好友");
             }
         });
-        ll_groups.setOnClickListener(new View.OnClickListener() {
+        llGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowToast.show(getActivity(),"群组");
+                ShowToast.show(getActivity(), "群组");
             }
         });
+    }
+
+    /**
+     * @param hidden 在Fragment 隐藏与显示切换时调用 如果是隐藏返回true 显示返回false
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden) {
+            //当显示的时候 可以请求服务器 获取新的数据
+        }
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

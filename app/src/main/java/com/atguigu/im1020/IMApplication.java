@@ -17,6 +17,7 @@ public class IMApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mIMApplication =this;
         initHXSdk();
         initModle();
     }
@@ -37,9 +38,6 @@ public class IMApplication extends Application {
     }
     private static IMApplication mIMApplication;
     public static IMApplication getInstance(){
-        if(mIMApplication==null) {
-            mIMApplication = new IMApplication();
-        }
         return mIMApplication;
     }
 }

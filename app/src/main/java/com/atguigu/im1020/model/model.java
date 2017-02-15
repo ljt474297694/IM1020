@@ -4,9 +4,6 @@ import android.content.Context;
 
 import com.atguigu.im1020.model.dao.AccountDAO;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * Created by 李金桐 on 2017/2/14.
  * QQ: 474297694
@@ -14,31 +11,28 @@ import java.util.concurrent.Executors;
  */
 
 public class Model {
-    //恶汉式单例
-    private static Model model = new Model();
-    private static ExecutorService service = Executors.newCachedThreadPool();
 
     private Context mContext;
     private AccountDAO accountDao;
 
     /**
-     *
-     * @param run 使用线程池开启线程
+     * 静态内部类 单例模式
      */
-    public static void startThread(Runnable run){
-        service.execute(run);
+    private static class ModelTool{
+        private static final Model MODEL = new Model();
     }
+    public static Model getInstance() {
+        return ModelTool.MODEL;
+    }
+
 
     public void init(Context context) {
         this.mContext = context;
         this.accountDao = new AccountDAO(context);
+        new GlobalListener(context);
     }
 
     private Model() {
-    }
-
-    public static Model getInstance() {
-        return model;
     }
 
     public void loginSuccess(String currentUser) {

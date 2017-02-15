@@ -28,4 +28,13 @@ public class ConversationFragment extends Fragment{
         textView.setGravity(Gravity.CENTER);
         return textView;
     }
+    /**
+     *
+     * @param hidden
+     * 在Fragment 隐藏与显示切换时调用 如果是隐藏返回true 显示返回false
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
 }

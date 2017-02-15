@@ -13,6 +13,7 @@ import com.atguigu.im1020.R;
 import com.atguigu.im1020.model.Model;
 import com.atguigu.im1020.model.bean.UserInfo;
 import com.atguigu.im1020.utils.ShowToast;
+import com.atguigu.im1020.utils.Utils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -50,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.login_btn_register:
                 if (verify()) {
-                    Model.startThread(new Runnable() {
+                    Utils.startThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
             case R.id.login_btn_login:
                 if (verify()) {
-                    Model.startThread(new Runnable() {
+                    Utils.startThread(new Runnable() {
                         @Override
                         public void run() {
                             EMClient.getInstance().login(username, pwd, new EMCallBack() {
@@ -92,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onError(int i, String s) {
+                                    ShowToast.showUIThread(LoginActivity.this,"注册失败" + s);
                                     Log.e("TAG", "LoginActivity onError()" + s);
                                 }
 

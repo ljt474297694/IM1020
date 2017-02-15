@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.atguigu.im1020.R;
 import com.atguigu.im1020.controller.activity.LoginActivity;
-import com.atguigu.im1020.model.Model;
+import com.atguigu.im1020.utils.ShowToast;
+import com.atguigu.im1020.utils.Utils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 
@@ -53,9 +53,19 @@ public class SettingFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    /**
+     *
+     * @param hidden
+     * 在Fragment 隐藏与显示切换时调用 如果是隐藏返回true 显示返回false
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+    }
+
     @OnClick(R.id.settings_btn_logout)
     public void onClick() {
-        Model.startThread(new Runnable() {
+        Utils.startThread(new Runnable() {
             @Override
             public void run() {
                 EMClient.getInstance().logout(false, new EMCallBack() {
@@ -66,7 +76,7 @@ public class SettingFragment extends Fragment {
                             @Override
                             public void run() {
                                 // 提示
-                                Toast.makeText(getActivity(), "退出成功", Toast.LENGTH_LONG).show();
+                                ShowToast.show(getActivity(),"退出成功");
                                 // 跳转到登录页面
                                 startActivity(new Intent(getActivity(), LoginActivity.class));
                                 // 结束当前页面
