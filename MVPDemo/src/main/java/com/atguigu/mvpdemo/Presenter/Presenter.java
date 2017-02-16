@@ -23,6 +23,9 @@ public class Presenter implements  PresenterInterface{
         this.mModelInterface = new Model(this);
     }
 
+    /**
+     * 联网获取数据 显示加载中的等待提示控件
+     */
     @Override
     public void getDataFromNet() {
         mModelInterface.getDataFromNet();
@@ -30,18 +33,24 @@ public class Presenter implements  PresenterInterface{
         mViewInterface.showLoading();
     }
 
+    /**
+     * 设置数据 隐藏加载控件
+     * @param json
+     */
     @Override
     public void onSuccess(String json) {
 
-        mViewInterface.setData(json);
+        mViewInterface.onSuccess(json);
 
         mViewInterface.hideLoading();
     }
-
+    /**
+     *显示错误信息 隐藏加载控件
+     */
     @Override
     public void onError(String error) {
 
-        mViewInterface.showError(error);
+        mViewInterface.onError(error);
 
         mViewInterface.hideLoading();
     }

@@ -14,10 +14,12 @@ import com.hyphenate.easeui.controller.EaseUI;
 
 public class IMApplication extends Application {
 
+    private static IMApplication mIMApplication;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        mIMApplication =this;
+        mIMApplication = this;
         initHXSdk();
         initModle();
     }
@@ -36,8 +38,8 @@ public class IMApplication extends Application {
 
         EaseUI.getInstance().init(this, options);
     }
-    private static IMApplication mIMApplication;
-    public static IMApplication getInstance(){
+
+    public static IMApplication getInstance() {
         return mIMApplication;
     }
 }

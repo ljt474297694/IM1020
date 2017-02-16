@@ -3,7 +3,7 @@ package com.atguigu.mvpdemo.presenter;
 /**
  * Created by 李金桐 on 2017/2/15.
  * QQ: 474297694
- * 功能: xxxx
+ * 功能: 操作层接口
  */
 
 public interface PresenterInterface {

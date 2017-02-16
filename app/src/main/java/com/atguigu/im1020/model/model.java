@@ -1,6 +1,7 @@
 package com.atguigu.im1020.model;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.atguigu.im1020.model.dao.AccountDAO;
 
@@ -37,10 +38,17 @@ public class Model {
     }
 
     public void loginSuccess(String currentUser) {
+        if(TextUtils.isEmpty(currentUser)) {
+            return;
+        }
         if(dbManager!=null) {
             dbManager.close();
         }
         dbManager = new DBManager(mContext,currentUser+".db");
+    }
+
+    public DBManager getDbManager() {
+        return dbManager;
     }
 
     public AccountDAO getAccountDao() {

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.atguigu.mvpdemo.R;
 import com.atguigu.mvpdemo.bean.Bean;
 import com.atguigu.mvpdemo.presenter.Presenter;
+import com.atguigu.mvpdemo.presenter.PresenterInterface;
 import com.atguigu.mvpdemo.utils.Constant;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -33,36 +34,41 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     ProgressBar pbMain;
     @Bind(R.id.tv_main)
     TextView tvMain;
-
-    private Presenter mPresenter;
+    /**
+     * 操作层实例 用于调用其联网方法
+     */
+    private PresenterInterface mPresenterInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /**
+         * 初始化视图 加载数据
+         */
         initView();
         initData();
     }
-
+    //初始化视图
     private void initView() {
         ButterKnife.bind(this);
     }
-
+    //准备工作完成 得到操作层实例 调用联网请求
     private void initData() {
         /**
          * 得到操作层的引用 传入View层接口实例
          */
-        mPresenter = new Presenter(this);
+        mPresenterInterface = new Presenter(this);
 
-        mPresenter.getDataFromNet();
+        mPresenterInterface.getDataFromNet();
 
     }
 
     /**
-     * @param json 绑定数据
+     * @param json 请求成功 绑定数据
      */
     @Override
-    public void setData(String json) {
+    public void onSuccess(String json) {
 
         Bean bean = new Gson().fromJson(json, Bean.class);
 
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
 
     // 请求失败
     @Override
-    public void showError(String error) {
+    public void onError(String error) {
         hideLoading();
 
         tvMain.setVisibility(View.VISIBLE);

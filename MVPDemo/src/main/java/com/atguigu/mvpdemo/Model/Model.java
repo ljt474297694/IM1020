@@ -1,5 +1,7 @@
 package com.atguigu.mvpdemo.model;
 
+import android.util.Log;
+
 import com.atguigu.mvpdemo.presenter.PresenterInterface;
 import com.atguigu.mvpdemo.utils.Constant;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -23,6 +25,7 @@ public class Model implements ModelInterface {
 
     @Override
     public void getDataFromNet() {
+
         OkHttpUtils
                 .get()
                 .url(Constant.URL)
@@ -35,7 +38,9 @@ public class Model implements ModelInterface {
                     @Override
                     public void onResponse(String response, int id) {
                         mPresenterInterface.onSuccess(response);
+                        Log.e("TAG", "Model onResponse()"+Thread.currentThread().getName());
                     }
                 });
+
     }
 }

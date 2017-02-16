@@ -1,13 +1,21 @@
 package com.atguigu.im1020.controller.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.atguigu.im1020.R;
 import com.atguigu.im1020.controller.activity.AddContactActivity;
+import com.atguigu.im1020.controller.activity.InviteActivity;
+import com.atguigu.im1020.utils.Constant;
 import com.atguigu.im1020.utils.ShowToast;
+import com.atguigu.im1020.utils.SpUtils;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 
 import butterknife.Bind;
@@ -30,6 +38,8 @@ public class ContactsListFragment extends EaseContactListFragment {
     LinearLayout llNewFriends;
     @Bind(ll_groups)
     LinearLayout llGroups;
+    private NotifyReceiver notifyReceiver;
+    private LocalBroadcastManager lbm;
 
     @Override
     protected void initView() {
@@ -46,6 +56,19 @@ public class ContactsListFragment extends EaseContactListFragment {
     protected void setUpView() {
         super.setUpView();
         setListener();
+        changePoint();
+        //获取监听
+        lbm = LocalBroadcastManager.getInstance(getActivity());
+        notifyReceiver = new NotifyReceiver();
+        lbm.registerReceiver(notifyReceiver,new IntentFilter(Constant.NEW_INVITE_CHANGED));
+
+    }
+
+
+
+    private void changePoint() {
+        boolean isShow = SpUtils.getInstace().getBoolean(SpUtils.NEW_INVITE, false);
+        contanctIvInvite.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
     private void setListener() {
@@ -58,7 +81,9 @@ public class ContactsListFragment extends EaseContactListFragment {
         llNewFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowToast.show(getActivity(), "邀请好友");
+               SpUtils.getInstace().save(SpUtils.NEW_INVITE, false);
+                changePoint();
+                startActivity( new Intent(getActivity(),InviteActivity.class));
             }
         });
         llGroups.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +100,7 @@ public class ContactsListFragment extends EaseContactListFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(!hidden) {
+        if (!hidden) {
             //当显示的时候 可以请求服务器 获取新的数据
         }
     }
@@ -83,7 +108,16 @@ public class ContactsListFragment extends EaseContactListFragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        lbm.unregisterReceiver(notifyReceiver);
         ButterKnife.unbind(this);
+        super.onDestroyView();
+    }
+
+     class NotifyReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e("TAG", "NotifyReceiver onReceive()");
+            changePoint();
+        }
     }
 }

@@ -8,12 +8,13 @@ package com.atguigu.mvpdemo.view;
 
 public interface ViewInterface {
 
-    //设置数据
-    void setData(String json);
-    //显示错误
-    void showError(String error);
-    //显加载
+    //请求成功 绑定数据
+    void onSuccess(String json);
+    //请求错误 返回错误数据
+    void onError(String error);
+    //显示加载视图
     void showLoading();
-    //隐藏加载显示
+    //隐藏加载视图
     void hideLoading();
+
 }
