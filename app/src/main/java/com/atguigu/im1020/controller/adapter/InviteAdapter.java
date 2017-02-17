@@ -1,7 +1,6 @@
 package com.atguigu.im1020.controller.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -41,7 +40,6 @@ public class InviteAdapter extends BaseAdapter {
         if (invitations != null) {
             myInvitations = invitations;
             notifyDataSetChanged();
-            Log.e("TAG", "InviteAdapter refresh()"+myInvitations.size());
         }
     }
 
@@ -63,7 +61,7 @@ public class InviteAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.adapter_invite_item, null);
             viewHolder = new ViewHolder(convertView);
@@ -83,30 +81,33 @@ public class InviteAdapter extends BaseAdapter {
             viewHolder.btInviteAccept.setVisibility(View.GONE);
             viewHolder.btInviteReject.setVisibility(View.GONE);
 
-            //新邀请
-            if (invitationInfo.getStatus()
-                    == InvitationInfo.InvitationStatus.NEW_INVITE) {
 
-                //展示button
-                viewHolder.btInviteReject.setVisibility(View.VISIBLE);
+            InvitationInfo.InvitationStatus status = invitationInfo.getStatus();
+
+
+            if (status == InvitationInfo.InvitationStatus.NEW_INVITE) {
+
                 viewHolder.btInviteAccept.setVisibility(View.VISIBLE);
-                //设置reason
+                viewHolder.btInviteReject.setVisibility(View.VISIBLE);
+
                 if (invitationInfo.getReason() == null) {
                     viewHolder.tvInviteReason.setText("邀请好友");
                 } else {
                     viewHolder.tvInviteReason.setText(invitationInfo.getReason());
                 }
-            } else if (invitationInfo.getStatus() //邀请被接受
-                    == InvitationInfo.InvitationStatus.INVITE_ACCEPT_BY_PEER) {
+
+            } else if (status == InvitationInfo.InvitationStatus.INVITE_ACCEPT) {
+
                 if (invitationInfo.getReason() == null) {
-                    viewHolder.tvInviteReason.setText("邀请被接受");
+                    viewHolder.tvInviteReason.setText("接受邀请");
                 } else {
                     viewHolder.tvInviteReason.setText(invitationInfo.getReason());
                 }
-            } else if (invitationInfo.getStatus()  //接受邀请
-                    == InvitationInfo.InvitationStatus.INVITE_ACCEPT) {
+
+            } else if (status == InvitationInfo.InvitationStatus.INVITE_ACCEPT_BY_PEER) {
+
                 if (invitationInfo.getReason() == null) {
-                    viewHolder.tvInviteReason.setText("接受邀请");
+                    viewHolder.tvInviteReason.setText("邀请被接受");
                 } else {
                     viewHolder.tvInviteReason.setText(invitationInfo.getReason());
                 }

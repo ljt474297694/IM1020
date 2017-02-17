@@ -20,27 +20,40 @@
         <TextView
             android:id="@+id/tv_invite_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:text="名称"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_invite_reason"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
             android:text="原因"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_invite_accept"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="接受" />
+    <LinearLayout
+        android:layout_weight="0.9"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/bt_invite_accept"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="接受" />
 
-    <Button
-        android:id="@+id/bt_invite_reject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="拒绝" />
+        <Button
+            android:id="@+id/bt_invite_reject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="拒绝" />
+
+    </LinearLayout>
+
 </LinearLayout>

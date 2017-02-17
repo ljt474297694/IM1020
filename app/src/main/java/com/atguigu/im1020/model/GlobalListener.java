@@ -47,15 +47,17 @@ public class GlobalListener {
         //好友请求被同意  你加别人的时候 别人同意了
         @Override
         public void onContactAgreed(String username) {
+
             InvitationInfo info = new InvitationInfo();
             info.setReason("邀请成功");
-            info.setStatus(InvitationInfo.InvitationStatus.INVITE_ACCEPT_BY_PEER);
             info.setUserInfo(new UserInfo(username));
+            info.setStatus(InvitationInfo.InvitationStatus.INVITE_ACCEPT_BY_PEER);
             Model.getInstance().getDbManager().getInvitationDAO().addInvitation(info);
 
             SpUtils.getInstace().save(SpUtils.NEW_INVITE, true);
 
             lbm.sendBroadcast(new Intent(Constant.NEW_INVITE_CHANGED));
+
         }
 
         //被删除时回调此方法

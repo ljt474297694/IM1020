@@ -58,7 +58,9 @@ public class MainActivity extends AppCompatActivity {
             fragments.add(new ImageFragment(datas[i],i));
         }
         adapter =new MyAdapter(getSupportFragmentManager());
+
         viewpager.setAdapter(adapter);
+
         tablayout.setupWithViewPager(viewpager);
         tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }

@@ -80,10 +80,9 @@ public class ImageFragment extends BaseFragment{
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         imageview.setImageBitmap(resource);
                         imageBitmap=resource;
+                        swiperefreshlayout.setRefreshing(false);
                     }
                 });
-
-        swiperefreshlayout.setRefreshing(false);
     }
 
     @Override
