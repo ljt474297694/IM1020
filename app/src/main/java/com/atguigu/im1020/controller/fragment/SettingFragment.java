@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.atguigu.im1020.R;
 import com.atguigu.im1020.controller.activity.LoginActivity;
 import com.atguigu.im1020.utils.ShowToast;
+import com.atguigu.im1020.utils.SpUtils;
 import com.atguigu.im1020.utils.Utils;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -75,6 +76,7 @@ public class SettingFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                SpUtils.getInstace().destroy();
                                 // 提示
                                 ShowToast.show(getActivity(),"退出成功");
                                 // 跳转到登录页面

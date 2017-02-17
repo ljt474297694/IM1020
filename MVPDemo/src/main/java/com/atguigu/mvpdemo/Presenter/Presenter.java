@@ -11,9 +11,9 @@ import com.atguigu.mvpdemo.view.ViewInterface;
  */
 
 public class Presenter implements  PresenterInterface{
-
+    // 视图层接口实例
     private final ViewInterface mViewInterface;
-
+    // 逻辑层接口实例
     private final ModelInterface mModelInterface;
 
     public Presenter(ViewInterface viewInterface) {

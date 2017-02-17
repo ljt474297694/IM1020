@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity implements ViewInterface {
     private void initView() {
         ButterKnife.bind(this);
     }
-    //准备工作完成 得到操作层实例 调用联网请求
+
+
+    //准备工作完成 得到操作层接口实例 调用联网请求方法
     private void initData() {
         /**
          * 得到操作层的引用 传入View层接口实例

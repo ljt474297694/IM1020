@@ -48,7 +48,7 @@ public class GlobalListener {
         @Override
         public void onContactAgreed(String username) {
             InvitationInfo info = new InvitationInfo();
-            info.setReason("加为好友");
+            info.setReason("邀请成功");
             info.setStatus(InvitationInfo.InvitationStatus.INVITE_ACCEPT_BY_PEER);
             info.setUserInfo(new UserInfo(username));
             Model.getInstance().getDbManager().getInvitationDAO().addInvitation(info);
@@ -77,7 +77,7 @@ public class GlobalListener {
             Model.getInstance().getDbManager().getContactDAO().saveContact(new UserInfo(username), true);
 
 
-            lbm.sendBroadcast(new Intent(Constant.NEW_INVITE_CHANGED));
+            lbm.sendBroadcast(new Intent(Constant.CONTACT_CHANGED));
 
         }
 

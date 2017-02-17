@@ -29,4 +29,5 @@ dependencies {
     compile project(':easeUI_CN')
     compile 'com.jakewharton:butterknife:7.0.1'
 
+
 }

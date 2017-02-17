@@ -63,14 +63,11 @@ public class InvitationDAO {
         String sql = "select * from " + InvitationTable.TABLE_NAME;
 
         Cursor cursor = database.rawQuery(sql, null);
-        List<InvitationInfo> infoList = null;
-        InvitationInfo invitationInfo = null;
+        List<InvitationInfo> infoList = new ArrayList<>();
+        InvitationInfo invitationInfo ;
 
         while (cursor.moveToNext()) {
             //进入此循环表示有数据 第一次创建集合 否则没有数据返回null
-            if (infoList == null) {
-                infoList = new ArrayList<>();
-            }
 
             invitationInfo = new InvitationInfo();
 

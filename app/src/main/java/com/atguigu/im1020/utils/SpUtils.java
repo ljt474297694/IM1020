@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.atguigu.im1020.IMApplication;
+import com.hyphenate.chat.EMClient;
 
 /**
  * Created by 李金桐 on 2017/2/16.
@@ -21,10 +22,14 @@ public class SpUtils {
     public static SpUtils getInstace( ){
 
         if(mSp == null) {
-            mSp = IMApplication.getInstance().getSharedPreferences("im",Context.MODE_PRIVATE);
+            mSp = IMApplication.getInstance().getSharedPreferences(EMClient.getInstance().getCurrentUser(),Context.MODE_PRIVATE);
         }
 
         return instace;
+    }
+
+    public void destroy(){
+        mSp = null;
     }
 
     // 保存
