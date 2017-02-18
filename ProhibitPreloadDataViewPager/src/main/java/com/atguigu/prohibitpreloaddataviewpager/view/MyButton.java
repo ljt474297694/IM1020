@@ -16,8 +16,8 @@ public class MyButton extends TextView {
 
     private Activity mActivity;
 
-    private boolean isLongClick = true;
-    private boolean isClick = true;
+    private boolean isLongClick ;
+    private boolean isClick ;
 
     public MyButton(Context context) {
         this(context, null);
@@ -39,15 +39,13 @@ public class MyButton extends TextView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 //屏蔽长按相应后的事件
-                if (isLongClick == true && isClick == false) {
-                    return true;
-                }
+                if (isLongClick == true && isClick == false)  return true;
+
                 break;
             case MotionEvent.ACTION_UP:
                 //屏蔽长按相应后的事件
-                if (isLongClick == true && isClick == false) {
-                    return true;
-                }
+                if (isLongClick == true && isClick == false)  return true;
+
                 if (mOnMyClickListener != null && isClick == true) {
                     isLongClick = false;
                     mOnMyClickListener.OnClickListener();

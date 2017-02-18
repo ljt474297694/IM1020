@@ -55,6 +55,7 @@ public class ContactsListFragment extends EaseContactListFragment {
     LinearLayout llGroups;
     private NotifyReceiver notifyReceiver;
     private LocalBroadcastManager lbm;
+    private List<UserInfo> contacts;
 
     @Override
     protected void initView() {
@@ -76,8 +77,9 @@ public class ContactsListFragment extends EaseContactListFragment {
         //获取监听
         lbm = LocalBroadcastManager.getInstance(getActivity());
         notifyReceiver = new NotifyReceiver();
-        lbm.registerReceiver(notifyReceiver, new IntentFilter(Constant.NEW_INVITE_CHANGED));
-        lbm.registerReceiver(notifyReceiver, new IntentFilter(Constant.CONTACT_CHANGED));
+        IntentFilter intentFilter =   new IntentFilter(Constant.NEW_INVITE_CHANGED);
+        intentFilter.addAction(Constant.CONTACT_CHANGED);
+        lbm.registerReceiver(notifyReceiver, intentFilter);
 
     }
 
@@ -110,7 +112,7 @@ public class ContactsListFragment extends EaseContactListFragment {
     }
 
     private void refreshContact() {
-        List<UserInfo> contacts = Model.getInstance().getDbManager().getContactDAO().getContacts();
+        contacts = Model.getInstance().getDbManager().getContactDAO().getContacts();
         if (contacts == null) {
             return;
         }
@@ -166,31 +168,36 @@ public class ContactsListFragment extends EaseContactListFragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                List<UserInfo> contacts = Model.getInstance().getDbManager().getContactDAO().getContacts();
-                showMenu(contacts.get(position - 1));
+                if (position == 0) {
+                    return false;
+                }
+                showDialog(contacts.get(position - 1));
                 return true;
             }
         });
     }
-
-    private void showMenu(final UserInfo userInfo) {
+    private void showDialog(final UserInfo userInfo) {
         new AlertDialog.Builder(getActivity())
                 .setMessage("你确定要删除吗")
                 .setNegativeButton("取消", null)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        try {
-                            EMClient.getInstance().contactManager().deleteContact(userInfo.getHxid());
-                            Model.getInstance().getDbManager().getContactDAO().deleteContactByHxId(userInfo.getHxid());
-                            refreshContact();
-                            ShowToast.show(getActivity(), "删除成功");
-                        } catch (HyphenateException e) {
-                            e.printStackTrace();
-                            ShowToast.show(getActivity(), "删除失败" + e.getMessage());
-                        }
-
+                        Utils.startThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    EMClient.getInstance().contactManager().deleteContact(userInfo.getHxid());
+                                    Model.getInstance().getDbManager().getContactDAO().deleteContactByHxId(userInfo.getHxid());
+                                    Model.getInstance().getDbManager().getInvitationDAO().removeInvitation(userInfo.getHxid());
+                                    refreshContact();
+                                    ShowToast.showUIThread(getActivity(), "删除成功");
+                                } catch (HyphenateException e) {
+                                    e.printStackTrace();
+                                    ShowToast.showUIThread(getActivity(), "删除失败" + e.getMessage());
+                                }
+                            }
+                        });
                     }
                 }).show();
 
