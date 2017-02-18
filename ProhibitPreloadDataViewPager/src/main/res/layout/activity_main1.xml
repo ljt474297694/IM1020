@@ -8,9 +8,11 @@
 
     <com.atguigu.prohibitpreloaddataviewpager.view.MyButton
         android:id="@+id/bt_main"
-        android:layout_width="90dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@android:drawable/btn_default"
+        android:text="自定义button"
+        android:gravity="center"
         />
 </RelativeLayout>

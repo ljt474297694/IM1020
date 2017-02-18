@@ -23,6 +23,7 @@ import com.atguigu.im1020.utils.ShowToast;
 import com.atguigu.im1020.utils.SpUtils;
 import com.atguigu.im1020.utils.Utils;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.exceptions.HyphenateException;
@@ -68,9 +69,9 @@ public class ContactsListFragment extends EaseContactListFragment {
 
     @Override
     protected void setUpView() {
+        setListener();
         super.setUpView();
         getDataFromHX();
-        setListener();
         changePoint();
         //获取监听
         lbm = LocalBroadcastManager.getInstance(getActivity());
@@ -154,7 +155,11 @@ public class ContactsListFragment extends EaseContactListFragment {
         setContactListItemClickListener(new EaseContactListItemClickListener() {
             @Override
             public void onListItemClicked(EaseUser user) {
-                startActivity(new Intent(getActivity(),ChatActivity.class));
+                if (user != null) {
+                    startActivity(
+                            new Intent(getActivity(), ChatActivity.class)
+                                    .putExtra(EaseConstant.EXTRA_USER_ID, user.getUsername()));
+                }
             }
         });
 
@@ -180,10 +185,10 @@ public class ContactsListFragment extends EaseContactListFragment {
                             EMClient.getInstance().contactManager().deleteContact(userInfo.getHxid());
                             Model.getInstance().getDbManager().getContactDAO().deleteContactByHxId(userInfo.getHxid());
                             refreshContact();
-                            ShowToast.show(getActivity(),"删除成功");
+                            ShowToast.show(getActivity(), "删除成功");
                         } catch (HyphenateException e) {
                             e.printStackTrace();
-                            ShowToast.show(getActivity(),"删除失败" + e.getMessage());
+                            ShowToast.show(getActivity(), "删除失败" + e.getMessage());
                         }
 
                     }
