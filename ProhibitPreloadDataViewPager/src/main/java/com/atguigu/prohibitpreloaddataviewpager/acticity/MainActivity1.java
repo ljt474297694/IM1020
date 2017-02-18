@@ -23,9 +23,11 @@ public class MainActivity1 extends AppCompatActivity {
         });
         bt_main.setOnMyLongClickListener(new MyButton.OnMyLongClickListener() {
             @Override
-            public void OnLongClickListener() {
+            public boolean OnLongClickListener() {
                 Toast.makeText(MainActivity1.this, "自定义长按事件", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
+
     }
 }

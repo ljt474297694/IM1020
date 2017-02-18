@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.atguigu.im1020.R;
 import com.atguigu.im1020.controller.activity.AddContactActivity;
 import com.atguigu.im1020.controller.activity.ChatActivity;
+import com.atguigu.im1020.controller.activity.GroupListActivity;
 import com.atguigu.im1020.controller.activity.InviteActivity;
 import com.atguigu.im1020.model.Model;
 import com.atguigu.im1020.model.bean.UserInfo;
@@ -54,7 +55,7 @@ public class ContactsListFragment extends EaseContactListFragment {
     @Bind(ll_groups)
     LinearLayout llGroups;
     private NotifyReceiver notifyReceiver;
-    private LocalBroadcastManager lbm;
+    private LocalBroadcastManager manager;
     private List<UserInfo> contacts;
 
     @Override
@@ -75,11 +76,11 @@ public class ContactsListFragment extends EaseContactListFragment {
         getDataFromHX();
         changePoint();
         //获取监听
-        lbm = LocalBroadcastManager.getInstance(getActivity());
+        manager = LocalBroadcastManager.getInstance(getActivity());
         notifyReceiver = new NotifyReceiver();
         IntentFilter intentFilter =   new IntentFilter(Constant.NEW_INVITE_CHANGED);
         intentFilter.addAction(Constant.CONTACT_CHANGED);
-        lbm.registerReceiver(notifyReceiver, intentFilter);
+        manager.registerReceiver(notifyReceiver, intentFilter);
 
     }
 
@@ -150,7 +151,7 @@ public class ContactsListFragment extends EaseContactListFragment {
         llGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ShowToast.show(getActivity(), "群组");
+                startActivity(new Intent(getActivity(), GroupListActivity.class));
             }
         });
 
@@ -210,7 +211,7 @@ public class ContactsListFragment extends EaseContactListFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            //当显示的时候 可以请求服务器 获取新的数据
+            //当显示的时候 可以从数据库 获取新的数据
             refreshContact();
         }
     }
@@ -218,7 +219,7 @@ public class ContactsListFragment extends EaseContactListFragment {
 
     @Override
     public void onDestroyView() {
-        lbm.unregisterReceiver(notifyReceiver);
+        manager.unregisterReceiver(notifyReceiver);
         ButterKnife.unbind(this);
         super.onDestroyView();
     }
