@@ -66,7 +66,7 @@ public class ContactsListFragment extends EaseContactListFragment {
         listView.addHeaderView(headerView);
         // 头部图标设置
         titleBar.setRightImageResource(R.drawable.em_add);
-        // 加号添加联系人
+
     }
 
     @Override
@@ -78,7 +78,7 @@ public class ContactsListFragment extends EaseContactListFragment {
         //获取监听
         manager = LocalBroadcastManager.getInstance(getActivity());
         notifyReceiver = new NotifyReceiver();
-        IntentFilter intentFilter =   new IntentFilter(Constant.NEW_INVITE_CHANGED);
+        IntentFilter intentFilter = new IntentFilter(Constant.NEW_INVITE_CHANGED);
         intentFilter.addAction(Constant.CONTACT_CHANGED);
         manager.registerReceiver(notifyReceiver, intentFilter);
 
@@ -99,6 +99,9 @@ public class ContactsListFragment extends EaseContactListFragment {
                         userInfos.add(userInfo);
                     }
                     Model.getInstance().getDbManager().getContactDAO().saveContacts(userInfos, true);
+                    if (getActivity() == null) {
+                        return;
+                    }
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -119,10 +122,12 @@ public class ContactsListFragment extends EaseContactListFragment {
         }
         Map<String, EaseUser> maps = new HashMap<>();
         EaseUser easeUser;
+
         for (int i = 0; i < contacts.size(); i++) {
             easeUser = new EaseUser(contacts.get(i).getHxid());
             maps.put(contacts.get(i).getHxid(), easeUser);
         }
+
         setContactsMap(maps);
         refresh();
     }
@@ -133,13 +138,17 @@ public class ContactsListFragment extends EaseContactListFragment {
         contanctIvInvite.setVisibility(isShow ? View.VISIBLE : View.GONE);
     }
 
+
     private void setListener() {
+
+
         titleBar.getRightLayout().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().startActivity(new Intent(getActivity(), AddContactActivity.class));
             }
         });
+
         llNewFriends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,6 +157,7 @@ public class ContactsListFragment extends EaseContactListFragment {
                 startActivity(new Intent(getActivity(), InviteActivity.class));
             }
         });
+
         llGroups.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,6 +187,7 @@ public class ContactsListFragment extends EaseContactListFragment {
             }
         });
     }
+
     private void showDialog(final UserInfo userInfo) {
         new AlertDialog.Builder(getActivity())
                 .setMessage("你确定要删除吗")
@@ -191,7 +202,16 @@ public class ContactsListFragment extends EaseContactListFragment {
                                     EMClient.getInstance().contactManager().deleteContact(userInfo.getHxid());
                                     Model.getInstance().getDbManager().getContactDAO().deleteContactByHxId(userInfo.getHxid());
                                     Model.getInstance().getDbManager().getInvitationDAO().removeInvitation(userInfo.getHxid());
-                                    refreshContact();
+                                    if (getActivity() == null) {
+                                        return;
+                                    }
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            refreshContact();
+
+                                        }
+                                    });
                                     ShowToast.showUIThread(getActivity(), "删除成功");
                                 } catch (HyphenateException e) {
                                     e.printStackTrace();

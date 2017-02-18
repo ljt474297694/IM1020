@@ -38,6 +38,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     @OnClick(R.id.bt_newgroup_create)
     public void onClick() {
         if (verify()) {
+            boolean checked = cbNewgroupPublic.isChecked();
             startActivity(new Intent(this,PickContactActivity.class));
         }
     }

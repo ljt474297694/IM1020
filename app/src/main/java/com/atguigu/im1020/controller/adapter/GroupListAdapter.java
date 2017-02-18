@@ -40,8 +40,7 @@ public class GroupListAdapter extends BaseAdapter {
         List<EMGroup> allGroups = EMClient.getInstance().groupManager().getAllGroups();
 
         if (allGroups != null) {
-            groups.clear();
-            groups.addAll(allGroups);
+            groups = allGroups;
             notifyDataSetChanged();
         }
     }
@@ -63,6 +62,7 @@ public class GroupListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.adapter_group_item, null);

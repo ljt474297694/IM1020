@@ -75,6 +75,7 @@ public class GroupListActivity extends AppCompatActivity {
     }
 
     private void initListener() {
+
         headView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
