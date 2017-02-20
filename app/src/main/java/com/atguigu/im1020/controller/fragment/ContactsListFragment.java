@@ -80,6 +80,7 @@ public class ContactsListFragment extends EaseContactListFragment {
         notifyReceiver = new NotifyReceiver();
         IntentFilter intentFilter = new IntentFilter(Constant.NEW_INVITE_CHANGED);
         intentFilter.addAction(Constant.CONTACT_CHANGED);
+        intentFilter.addAction(Constant.NEW_GROUP_CHANGED);
         manager.registerReceiver(notifyReceiver, intentFilter);
 
     }
@@ -256,6 +257,9 @@ public class ContactsListFragment extends EaseContactListFragment {
                     break;
                 case Constant.CONTACT_CHANGED:
                     refreshContact();
+                    break;
+                case Constant.NEW_GROUP_CHANGED:
+                    changePoint();
                     break;
             }
         }

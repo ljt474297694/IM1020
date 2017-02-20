@@ -89,6 +89,115 @@ public class InviteActivity extends AppCompatActivity {
                 }
             });
         }
+
+        @Override
+        public void onInviteAccept(final InvitationInfo info) {
+            Utils.startThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        EMClient.getInstance().groupManager()
+                                .acceptInvitation(info.getGroupInfo().getGroupid(), info.getGroupInfo().getInvitePerson());
+
+                        info.setStatus(InvitationInfo.InvitationStatus.GROUP_ACCEPT_INVITE);
+
+                        Model.getInstance().getDbManager().getInvitationDAO().addInvitation(info);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refresh();
+                                ShowToast.show(InviteActivity.this, "接受成功");
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                        ShowToast.show(InviteActivity.this, "接受失败" + e.getMessage());
+                    }
+
+
+                }
+            });
+
+        }
+
+        @Override
+        public void onInviteReject(final InvitationInfo info) {
+            Utils.startThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        EMClient.getInstance().groupManager()
+                                .declineInvitation(info.getGroupInfo().getGroupid(),info.getGroupInfo().getInvitePerson(),"");
+
+                        info.setStatus(InvitationInfo.InvitationStatus.GROUP_REJECT_INVITE);
+                        Model.getInstance().getDbManager().getInvitationDAO().addInvitation(info);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refresh();
+                                ShowToast.show(InviteActivity.this, "拒绝成功");
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                        ShowToast.showUIThread(InviteActivity.this, "拒绝失败");
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onApplicationAccept(final InvitationInfo info) {
+            Utils.startThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        EMClient.getInstance().groupManager()
+                                .acceptApplication(info.getGroupInfo().getGroupid(),info.getGroupInfo().getInvitePerson());
+
+                        info.setStatus(InvitationInfo.InvitationStatus.GROUP_ACCEPT_APPLICATION);
+                        Model.getInstance().getDbManager().getInvitationDAO().addInvitation(info);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refresh();
+                                ShowToast.show(InviteActivity.this, "接受成功");
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                        ShowToast.showUIThread(InviteActivity.this, "接受失败");
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onApplicationReject(final InvitationInfo info) {
+            Utils.startThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        EMClient.getInstance().groupManager()
+                                .declineApplication(info.getGroupInfo().getGroupid(),info.getGroupInfo().getInvitePerson(),"");
+
+                        info.setStatus(InvitationInfo.InvitationStatus.GROUP_REJECT_APPLICATION);
+                        Model.getInstance().getDbManager().getInvitationDAO().addInvitation(info);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refresh();
+                                ShowToast.show(InviteActivity.this, "拒绝成功");
+                            }
+                        });
+                    } catch (HyphenateException e) {
+                        e.printStackTrace();
+                        ShowToast.showUIThread(InviteActivity.this, "拒绝失败");
+                    }
+                }
+            });
+        }
     };
     private LocalBroadcastManager manager;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
