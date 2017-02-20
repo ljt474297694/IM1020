@@ -10,4 +10,5 @@ public class Constant {
     public static final String NEW_INVITE_CHANGED = "new_invite_changed";
     public static final String CONTACT_CHANGED = "contact_changed";
     public static final String NEW_GROUP_CHANGED = "new_group_changed";
+    public static final String DESTORY_GROUP = "destory_group";
 }

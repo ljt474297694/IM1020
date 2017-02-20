@@ -108,5 +108,6 @@ public class GroupListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 }
