@@ -95,7 +95,6 @@ public class ChatDetailsActivity extends AppCompatActivity {
                                                 ShowToast.show(ChatDetailsActivity.this,"退群成功");
                                                 finish();
                                                 exitGroup();
-
                                             }
                                         });
                                     } catch (HyphenateException e) {

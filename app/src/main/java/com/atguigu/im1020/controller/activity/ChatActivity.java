@@ -46,7 +46,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onEnterToChatDetails() {
 
                 startActivity(new Intent(ChatActivity.this,ChatDetailsActivity.class)
-                .putExtra("groupid",getIntent().getExtras().getString(EaseConstant.EXTRA_USER_ID)));
+                .putExtra("groupid",groupid));
 
             }
 
