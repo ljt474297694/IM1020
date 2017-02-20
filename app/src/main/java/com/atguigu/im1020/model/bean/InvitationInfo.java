@@ -54,6 +54,8 @@ public class InvitationInfo {
         this.status = status;
     }
 
+
+
     public enum InvitationStatus{
         // 联系人邀请信息状态
         NEW_INVITE,// 新邀请

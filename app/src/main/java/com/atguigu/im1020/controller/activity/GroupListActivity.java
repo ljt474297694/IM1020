@@ -74,6 +74,13 @@ public class GroupListActivity extends AppCompatActivity {
         adapter.refresh();
     }
 
+    @Override
+    protected void onResume() {
+        refresh();
+        super.onResume();
+
+    }
+
     private void initListener() {
 
         headView.setOnClickListener(new View.OnClickListener() {

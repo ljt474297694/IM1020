@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by 李金桐 on 2017/2/14.
  * QQ: 474297694
- * 功能: xxxx
+ * 功能: 会话列表的Fragment
  */
 
 public class ConversationFragment extends EaseConversationListFragment {

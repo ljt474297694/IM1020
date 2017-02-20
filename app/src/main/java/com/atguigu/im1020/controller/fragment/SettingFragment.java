@@ -25,7 +25,7 @@ import butterknife.OnClick;
 /**
  * Created by 李金桐 on 2017/2/14.
  * QQ: 474297694
- * 功能: xxxx
+ * 功能: 设置页面的Fragment
  */
 
 public class SettingFragment extends Fragment {
@@ -86,6 +86,7 @@ public class SettingFragment extends Fragment {
                             }
 
                         });
+
                     }
 
                     @Override

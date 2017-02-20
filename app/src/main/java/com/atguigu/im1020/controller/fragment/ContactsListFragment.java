@@ -42,7 +42,7 @@ import static com.atguigu.im1020.R.id.ll_groups;
 /**
  * Created by 李金桐 on 2017/2/14.
  * QQ: 474297694
- * 功能: xxxx
+ * 功能: 联系人列表Fragment
  */
 
 public class ContactsListFragment extends EaseContactListFragment {
@@ -99,6 +99,7 @@ public class ContactsListFragment extends EaseContactListFragment {
                         userInfos.add(userInfo);
                     }
                     Model.getInstance().getDbManager().getContactDAO().saveContacts(userInfos, true);
+
                     if (getActivity() == null) {
                         return;
                     }
@@ -108,6 +109,7 @@ public class ContactsListFragment extends EaseContactListFragment {
                             refreshContact();
                         }
                     });
+
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
