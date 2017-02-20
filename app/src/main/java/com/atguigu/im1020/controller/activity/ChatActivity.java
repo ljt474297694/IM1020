@@ -1,20 +1,21 @@
 package com.atguigu.im1020.controller.activity;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.atguigu.im1020.R;
-import com.atguigu.im1020.utils.Constant;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.easeui.widget.chatrow.EaseCustomChatRowProvider;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -27,6 +28,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        EventBus.getDefault().register(this);
         initData();
         
         initListener();
@@ -89,29 +91,37 @@ public class ChatActivity extends AppCompatActivity {
                 .replace(R.id.activity_chat, chatFragment).commit();
 
 
-        int type = getIntent().getExtras().getInt(EaseConstant.EXTRA_CHAT_TYPE);
-
+//        int type = getIntent().getExtras().getInt(EaseConstant.EXTRA_CHAT_TYPE);
+//
         groupid = getIntent().getExtras().getString(EaseConstant.EXTRA_USER_ID);
-
-        if(type == EaseConstant.CHATTYPE_GROUP) {
-            manager = LocalBroadcastManager.getInstance(getApplicationContext());
-            recriver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                        if(groupid.equals(intent.getStringExtra("groupid"))) {
-                            finish();
-                        }
-                }
-            };
-            manager.registerReceiver(recriver,new IntentFilter(Constant.DESTORY_GROUP));
+//
+//        if(type == EaseConstant.CHATTYPE_GROUP) {
+//            manager = LocalBroadcastManager.getInstance(getApplicationContext());
+//            recriver = new BroadcastReceiver() {
+//                @Override
+//                public void onReceive(Context context, Intent intent) {
+//                        if(groupid.equals(intent.getStringExtra("groupid"))) {
+//                            finish();
+//                        }
+//                }
+//            };
+//            manager.registerReceiver(recriver,new IntentFilter(Constant.DESTORY_GROUP));
+//        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void EventMessage(String message){
+        if(message.equals(groupid)) {
+            finish();
         }
     }
-
     @Override
     protected void onDestroy() {
         if(recriver!=null) {
             manager.unregisterReceiver(recriver);
         }
+        //注销事件接受
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
 }

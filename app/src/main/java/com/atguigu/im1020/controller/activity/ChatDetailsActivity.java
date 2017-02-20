@@ -1,8 +1,6 @@
 package com.atguigu.im1020.controller.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,12 +8,13 @@ import android.widget.Button;
 import android.widget.GridView;
 
 import com.atguigu.im1020.R;
-import com.atguigu.im1020.utils.Constant;
 import com.atguigu.im1020.utils.ShowToast;
 import com.atguigu.im1020.utils.Utils;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.exceptions.HyphenateException;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -33,7 +32,7 @@ public class ChatDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_details);
         ButterKnife.bind(this);
-        
+
         initData();
 
     }
@@ -114,9 +113,10 @@ public class ChatDetailsActivity extends AppCompatActivity {
     }
 
     private void exitGroup() {
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-
-        manager.sendBroadcast(new Intent(Constant.DESTORY_GROUP).putExtra("groupid",groupid));
+//        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+//
+//        manager.sendBroadcast(new Intent(Constant.DESTORY_GROUP).putExtra("groupid",groupid));
+        EventBus.getDefault().post(groupid);
     }
 
 }
