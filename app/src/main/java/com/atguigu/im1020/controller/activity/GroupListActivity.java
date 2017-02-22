@@ -62,7 +62,6 @@ public class GroupListActivity extends AppCompatActivity {
                             refresh();
                         }
                     });
-
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }

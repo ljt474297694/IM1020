@@ -14,6 +14,8 @@ import com.atguigu.im1020.controller.adapter.PickAdapter;
 import com.atguigu.im1020.model.Model;
 import com.atguigu.im1020.model.bean.PickInfo;
 import com.atguigu.im1020.model.bean.UserInfo;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,17 +32,25 @@ public class PickContactActivity extends AppCompatActivity {
     ListView lvPick;
     private PickAdapter adapter;
     private List<PickInfo> pickInfos;
+    private boolean isMember;
+    private String groupid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_contact);
         ButterKnife.bind(this);
+        getGroupData();
         initView();
 
         initData();
 
         initListener();
+    }
+
+    private void getGroupData() {
+        groupid = getIntent().getStringExtra("groupid");
+        isMember = groupid != null;
     }
 
     private void initListener() {
@@ -66,6 +76,19 @@ public class PickContactActivity extends AppCompatActivity {
             pickInfos.add(new PickInfo(contacts.get(i), false));
         }
 
+        //如果是群组邀请好友 筛选已经是本群组的成员
+        if (isMember) {
+            EMGroup group = EMClient.getInstance().groupManager().getGroup(groupid);
+            List<String> members = group.getMembers();
+            for (int i = 0; i < members.size(); i++) {
+                for (int j = 0; j < pickInfos.size(); j++) {
+                    if (pickInfos.get(j).getUserInfo().getHxid().equals(members.get(i))) {
+                        pickInfos.remove(j);
+                    }
+                }
+            }
+        }
+
         adapter.refresh(pickInfos);
 
     }
@@ -81,19 +104,25 @@ public class PickContactActivity extends AppCompatActivity {
 
         List<String> datas = new ArrayList<>();
 
-        if(pickInfos==null) {
-            return ;
+        if (pickInfos == null) {
+            return;
         }
-        for(int i = 0; i <pickInfos.size() ; i++) {
-            if(pickInfos.get(i).isCheck()) {
+
+
+        for (int i = 0; i < pickInfos.size(); i++) {
+            if (pickInfos.get(i).isCheck()) {
                 datas.add(pickInfos.get(i).getUserInfo().getHxid());
             }
         }
-        Intent intent  = new Intent();
+        Intent intent = new Intent();
 
-        intent.putExtra("array",datas.toArray(new String [datas.size()]));
+        intent.putExtra("array", datas.toArray(new String[datas.size()]));
+        if (isMember) {
+            setResult(2, intent);
+        } else {
+            setResult(1, intent);
+        }
 
-        setResult(1,intent);
         finish();
 
     }
@@ -101,6 +130,7 @@ public class PickContactActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         finish();
-        super.onBackPressed();
     }
+
+
 }

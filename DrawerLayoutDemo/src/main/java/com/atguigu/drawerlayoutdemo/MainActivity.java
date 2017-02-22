@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout rightDrawer;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    String[] datas = {"菜单1","菜单2","菜单3","菜单4","菜单5"};
+    String[] datas = {"菜单1", "菜单2", "菜单3", "菜单4", "菜单5"};
     private int position;
     private MyAdapter adapter;
     private ArrayList<TextFragment> fragments;
@@ -62,17 +62,17 @@ public class MainActivity extends AppCompatActivity {
         adapter = new MyAdapter();
         leftDrawer.setAdapter(adapter);
         fragments = new ArrayList<>();
-        for(int i = 0; i <5 ; i++) {
+        for (int i = 0; i < 5; i++) {
             TextFragment textFragment = new TextFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("text","页面" + (i+1));
+            bundle.putString("text", "页面" + (i + 1));
             textFragment.setArguments(bundle);
-          fragments.add(textFragment);
+            fragments.add(textFragment);
         }
         switchFragment(0);
     }
 
-    class  MyAdapter extends BaseAdapter {
+    class MyAdapter extends BaseAdapter {
         @Override
         public int getCount() {
             return datas.length;
@@ -90,11 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-                convertView = View.inflate(MainActivity.this,R.layout.list_item,null);
-
+            convertView = View.inflate(MainActivity.this, R.layout.list_item, null);
             TextView textView = (TextView) convertView.findViewById(R.id.tv_item);
 
-            if(position==MainActivity.this.position) {
+            if (position == MainActivity.this.position) {
                 textView.setBackgroundResource(android.R.color.holo_blue_light);
             }
             textView.setText(datas[position]);
